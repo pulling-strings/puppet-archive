@@ -57,6 +57,8 @@ define archive (
   $proxy            = undef,
   $exec_path        = ['/usr/local/bin', '/usr/bin', '/bin']) {
 
+  ensure_packages(['curl'])
+
   archive::download {"${name}.${extension}":
     ensure          => $ensure,
     url             => $url,
