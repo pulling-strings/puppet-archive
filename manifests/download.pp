@@ -66,11 +66,23 @@ define archive::download (
     default => '',
   }
 
+  case $::kernel {
+    FreeBSD:{
+      $cmd_prefix = '/sbin/'
+      $cmd_postfix= ''
+    }
+    Linux:{
+      $cmd_prefix= ''
+      $cmd_postfix = 'sum'
+    }
+    default: { fail('Unimplemented digest postfix type') }
+  }
+
   case $checksum {
     true : {
       case $digest_type {
         'md5', 'sha1', 'sha224', 'sha256', 'sha384', 'sha512' : {
-          $checksum_cmd = "${digest_type}sum -c ${name}.${digest_type}"
+          $checksum_cmd = "${cmd_prefix}${digest_type}${cmd_postfix} -c ${name}.${digest_type}"
         }
         default: { fail('Unimplemented digest type') }
       }
