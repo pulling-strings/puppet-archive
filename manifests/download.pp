@@ -67,11 +67,11 @@ define archive::download (
   }
 
   case $::kernel {
-    FreeBSD:{
+    'FreeBSD':{
       $cmd_prefix = '/sbin/'
       $cmd_postfix= ''
     }
-    Linux:{
+    'Linux':{
       $cmd_prefix= ''
       $cmd_postfix = 'sum'
     }
